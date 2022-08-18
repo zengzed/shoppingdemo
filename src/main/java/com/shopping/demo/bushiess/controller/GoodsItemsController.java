@@ -1,7 +1,13 @@
 package com.shopping.demo.bushiess.controller;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.shopping.demo.bushiess.model.dto.GoodsDto;
+import com.shopping.demo.bushiess.model.dto.GoodsItemsDto;
+import com.shopping.demo.bushiess.model.req.GoodsItemsListReq;
+import com.shopping.demo.bushiess.service.GoodsItemsService;
+import com.shopping.demo.common.model.ResultData;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * <p>
@@ -15,4 +21,18 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/goods-items")
 public class GoodsItemsController {
 
+    @Autowired
+    private GoodsItemsService goodsItemsService;
+
+    /**
+     * 分页
+     *
+     * @param goodsItemsListReq
+     * @return
+     */
+    @PostMapping("/page")
+    public ResultData<IPage<GoodsItemsDto>> list(@RequestBody GoodsItemsListReq goodsItemsListReq) {
+        IPage<GoodsItemsDto> goodsItemsDtoIPage = goodsItemsService.pageByGoodsItemsListReq(goodsItemsListReq);
+        return ResultData.success(goodsItemsDtoIPage);
+    }
 }
